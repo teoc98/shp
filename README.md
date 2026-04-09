@@ -7,7 +7,7 @@ a TUI playground for exploring shell scripting.
 <!--
 This application utilizes [itchyny's](https://github.com/itchyny) implementation of `jq` written in Go, [`gojq`](https://github.com/itchyny/gojq).
 -->
-This application is a fork of [https://github.com/noahgorstein/jqp](jqp),  a TUI playground to experiment with `jq`.
+This application is a fork of [jqp](https://github.com/noahgorstein/jqp),  a TUI playground to experiment with `jq`.
 
 ## Installation
 
