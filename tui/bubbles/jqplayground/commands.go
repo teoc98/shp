@@ -1,16 +1,15 @@
 package jqplayground
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
+	"io"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/atotto/clipboard"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/itchyny/gojq"
 
 	"github.com/noahgorstein/jqp/tui/utils"
 )
@@ -32,33 +31,47 @@ type copyResultsToClipboardMsg struct{}
 
 // processQueryResults iterates through the results of a gojq query on the provided JSON object
 // and appends the formatted results to the provided string builder.
-func processQueryResults(ctx context.Context, results *strings.Builder, query *gojq.Query, obj any) error {
-	iter := query.RunWithContext(ctx, obj)
-	for {
-		v, ok := iter.Next()
-		if !ok {
-			break
-		}
-
-		if err, ok := v.(error); ok {
-			return err
-		}
-
-		if r, err := gojq.Marshal(v); err == nil {
-			fmt.Fprintf(results, "%s\n", string(r))
-		}
-	}
-	return nil
-}
-
-func processJSONWithQuery(ctx context.Context, results *strings.Builder, query *gojq.Query, data []byte) error {
-	var obj any
-	d := json.NewDecoder(bytes.NewReader(data))
-	d.UseNumber()
-	if err := d.Decode(&obj); err != nil {
+func processQueryResults(ctx context.Context, results *strings.Builder, script string, data []byte) error {
+	cmd := exec.Command("sh", "-c", script)
+	stdin, err := cmd.StdinPipe()
+	if err != nil {
 		return err
 	}
-	err := processQueryResults(ctx, results, query, obj)
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		return err
+	}
+	stderr, err := cmd.StderrPipe()
+	if err != nil {
+		return err
+	}
+
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+
+	go func() {
+		defer stdin.Close()
+		stdin.Write(data)
+	}()
+
+	cmdout, err := io.ReadAll(stdout)
+	if err != nil {
+		return err
+	}
+	cmderr, err := io.ReadAll(stderr)
+	if err != nil {
+		return err
+	}
+	fmt.Fprintf(results, "%s\n", cmdout)
+	fmt.Fprintf(results, "%s\n", cmderr)
+
+	err = cmd.Wait()
+	return err
+}
+
+func processJSONWithQuery(ctx context.Context, results *strings.Builder, script string, data []byte) error {
+	err := processQueryResults(ctx, results, script, data)
 	if err != nil {
 		return err
 	}
@@ -66,11 +79,11 @@ func processJSONWithQuery(ctx context.Context, results *strings.Builder, query *
 	return nil
 }
 
-func processJSONLinesWithQuery(ctx context.Context, results *strings.Builder, query *gojq.Query, data []byte) error {
+func processJSONLinesWithQuery(ctx context.Context, results *strings.Builder, script string, data []byte) error {
 	const maxBufferSize = 100 * 1024 * 1024 // 100MB max buffer size
 
 	processLine := func(line []byte) error {
-		return processJSONWithQuery(ctx, results, query, line)
+		return processJSONWithQuery(ctx, results, script, line)
 	}
 
 	return utils.ScanLinesWithDynamicBufferSize(data, maxBufferSize, processLine)
@@ -78,17 +91,14 @@ func processJSONLinesWithQuery(ctx context.Context, results *strings.Builder, qu
 
 func (b *Bubble) executeQueryOnInput(ctx context.Context) (string, error) {
 	var results strings.Builder
-	query, err := gojq.Parse(b.queryinput.GetInputValue())
-	if err != nil {
-		return "", err
-	}
+	script := b.queryinput.GetInputValue()
 
 	processor := processJSONWithQuery
 
 	if b.isJSONLines {
 		processor = processJSONLinesWithQuery
 	}
-	if err := processor(ctx, &results, query, b.inputdata.GetInputJSON()); err != nil {
+	if err := processor(ctx, &results, script, b.inputdata.GetInputJSON()); err != nil {
 		return "", err
 	}
 	return results.String(), nil
