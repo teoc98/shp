@@ -95,13 +95,13 @@ func (b *Bubble) SetQuery(query string) {
 
 func (b Bubble) updateKeyMsg(msg tea.KeyMsg) (Bubble, tea.Cmd) {
 	switch msg.Type {
-	case tea.KeyUp:
-		return b.handleKeyUp()
-	case tea.KeyDown:
-		return b.handleKeyDown()
-	case tea.KeyEnter:
-		b.RotateHistory()
-		return b, nil
+	// case tea.KeyUp:
+	// 	return b.handleKeyUp()
+	// case tea.KeyDown:
+	// 	return b.handleKeyDown()
+	// case tea.KeyEnter:
+	// 	b.RotateHistory()
+	// 	return b, nil
 	default:
 		var cmd tea.Cmd
 		b.textarea, cmd = b.textarea.Update(msg)
