@@ -22,8 +22,8 @@ var keys = keyMap{
 		key.WithKeys("esc"),
 		key.WithHelp("esc", "back")),
 	submit: key.NewBinding(
-		key.WithKeys("enter"),
-		key.WithHelp("enter", "submit query")),
+		key.WithKeys("ctrl+r"),
+		key.WithHelp("ctrl+r", "run script")),
 	abort: key.NewBinding(
 		key.WithKeys("ctrl+c"),
 		key.WithHelp("ctrl+c", "abort running query")),

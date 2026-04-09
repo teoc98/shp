@@ -123,7 +123,7 @@ func (b *Bubble) handleKeyMsg(msg tea.KeyMsg, cmds *[]tea.Cmd) {
 		tea.KeyTab:      b.handleTab,
 		tea.KeyShiftTab: b.handleShiftTab,
 		tea.KeyEsc:      b.handleEsc,
-		tea.KeyEnter:    func() { b.handleEnter(cmds) },
+		tea.KeyCtrlR:    func() { b.handleEnter(cmds) }, // enter is needed for newline in textarea
 		tea.KeyCtrlS:    b.handleCtrlS,
 		tea.KeyCtrlY:    func() { b.handleCtrlY(cmds) },
 		tea.KeyCtrlT:    b.handleCtrlT,
