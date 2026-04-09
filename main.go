@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/noahgorstein/jqp/cmd"
+	"github.com/teoc98/shp/cmd"
 )
 
 func main() {

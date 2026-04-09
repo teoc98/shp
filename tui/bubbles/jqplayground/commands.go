@@ -12,7 +12,7 @@ import (
 	"github.com/atotto/clipboard"
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/noahgorstein/jqp/tui/utils"
+	"github.com/teoc98/shp/tui/utils"
 )
 
 type errorMsg struct {

@@ -4,14 +4,14 @@ import (
 	"os"
 	"time"
 
-	"github.com/noahgorstein/jqp/tui/bubbles/fileselector"
-	"github.com/noahgorstein/jqp/tui/bubbles/help"
-	"github.com/noahgorstein/jqp/tui/bubbles/inputdata"
-	"github.com/noahgorstein/jqp/tui/bubbles/output"
-	"github.com/noahgorstein/jqp/tui/bubbles/queryinput"
-	"github.com/noahgorstein/jqp/tui/bubbles/state"
-	"github.com/noahgorstein/jqp/tui/bubbles/statusbar"
-	"github.com/noahgorstein/jqp/tui/theme"
+	"github.com/teoc98/shp/tui/bubbles/fileselector"
+	"github.com/teoc98/shp/tui/bubbles/help"
+	"github.com/teoc98/shp/tui/bubbles/inputdata"
+	"github.com/teoc98/shp/tui/bubbles/output"
+	"github.com/teoc98/shp/tui/bubbles/queryinput"
+	"github.com/teoc98/shp/tui/bubbles/state"
+	"github.com/teoc98/shp/tui/bubbles/statusbar"
+	"github.com/teoc98/shp/tui/theme"
 )
 
 func (b Bubble) GetState() state.State {

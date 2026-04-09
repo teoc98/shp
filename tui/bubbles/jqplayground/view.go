@@ -3,7 +3,7 @@ package jqplayground
 import (
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/noahgorstein/jqp/tui/bubbles/state"
+	"github.com/teoc98/shp/tui/bubbles/state"
 )
 
 func (b Bubble) View() string {

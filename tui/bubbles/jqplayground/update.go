@@ -8,8 +8,8 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/noahgorstein/jqp/tui/bubbles/inputdata"
-	"github.com/noahgorstein/jqp/tui/bubbles/state"
+	"github.com/teoc98/shp/tui/bubbles/inputdata"
+	"github.com/teoc98/shp/tui/bubbles/state"
 )
 
 func (b Bubble) Update(msg tea.Msg) (tea.Model, tea.Cmd) {

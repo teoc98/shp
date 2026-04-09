@@ -1,4 +1,4 @@
-module github.com/noahgorstein/jqp
+module github.com/teoc98/shp
 
 go 1.24.0
 

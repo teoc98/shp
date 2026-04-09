@@ -5,8 +5,8 @@ import (
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbletea"
 
-	"github.com/noahgorstein/jqp/tui/bubbles/state"
-	"github.com/noahgorstein/jqp/tui/theme"
+	"github.com/teoc98/shp/tui/bubbles/state"
+	"github.com/teoc98/shp/tui/theme"
 )
 
 type Bubble struct {

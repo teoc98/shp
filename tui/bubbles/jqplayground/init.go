@@ -3,7 +3,7 @@ package jqplayground
 import (
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/noahgorstein/jqp/tui/utils"
+	"github.com/teoc98/shp/tui/utils"
 )
 
 // invalidInputMsg signals that the user's data is not valid JSON or NDJSON
