@@ -41,6 +41,13 @@ You can provide the input either through a file or via standard input (stdin).`,
 
 		styleOverrides := viper.GetStringMapString(configKeysName.styleOverrides)
 		jqtheme, defaultTheme := theme.GetTheme(flags.theme, styleOverrides)
+		shell := flags.shell
+		if shell == "" {
+			shell = os.Getenv("SHELL")
+		}
+		if shell == "" {
+			shell = "/bin/sh"
+		}
 
 		// If not using the default theme,
 		// and if theme specified is the same as in the config,
@@ -68,7 +75,7 @@ You can provide the input either through a file or via standard input (stdin).`,
 			if err != nil {
 				return err
 			}
-			bubble, err := jqplayground.New(stdin, "STDIN", query, jqtheme)
+			bubble, err := jqplayground.New(stdin, "STDIN", query, jqtheme, shell)
 			if err != nil {
 				return err
 			}
@@ -102,7 +109,7 @@ You can provide the input either through a file or via standard input (stdin).`,
 			return err
 		}
 
-		bubble, err := jqplayground.New(data, fi.Name(), query, jqtheme)
+		bubble, err := jqplayground.New(data, fi.Name(), query, jqtheme, shell)
 		if err != nil {
 			return err
 		}
@@ -153,16 +160,18 @@ func initConfig() {
 }
 
 var flags struct {
-	filepath, theme string
+	filepath, theme, shell string
 }
 
 var flagsName = struct {
-	file, fileShort, theme, themeShort string
+	file, fileShort, theme, themeShort, shell, shellShort string
 }{
 	file:       "file",
 	fileShort:  "f",
 	theme:      "theme",
 	themeShort: "t",
+	shell:      "shell",
+	shellShort: "s",
 }
 
 var configKeysName = struct {
@@ -186,7 +195,13 @@ func Execute() error {
 		&flags.filepath,
 		flagsName.file,
 		flagsName.fileShort,
-		"", "path to the input JSON file")
+		"", "path to the input file")
+
+	rootCmd.Flags().StringVarP(
+		&flags.filepath,
+		flagsName.shell,
+		flagsName.shellShort,
+		"", "interpreter to use (defaults to $SHELL, or /bin/sh if unset)")
 
 	rootCmd.Flags().StringVarP(
 		&flags.theme,

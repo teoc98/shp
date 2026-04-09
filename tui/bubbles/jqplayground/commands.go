@@ -31,8 +31,8 @@ type copyResultsToClipboardMsg struct{}
 
 // processQueryResults iterates through the results of a gojq query on the provided JSON object
 // and appends the formatted results to the provided string builder.
-func processQueryResults(ctx context.Context, results *strings.Builder, script string, data []byte) error {
-	cmd := exec.Command("sh", "-c", script)
+func processQueryResults(ctx context.Context, results *strings.Builder, shell string, script string, data []byte) error {
+	cmd := exec.Command(shell, "-c", script)
 	stdin, err := cmd.StdinPipe()
 	if err != nil {
 		return err
@@ -70,8 +70,8 @@ func processQueryResults(ctx context.Context, results *strings.Builder, script s
 	return err
 }
 
-func processJSONWithQuery(ctx context.Context, results *strings.Builder, script string, data []byte) error {
-	err := processQueryResults(ctx, results, script, data)
+func processJSONWithQuery(ctx context.Context, results *strings.Builder, shell string, script string, data []byte) error {
+	err := processQueryResults(ctx, results, shell, script, data)
 	if err != nil {
 		return err
 	}
@@ -79,11 +79,11 @@ func processJSONWithQuery(ctx context.Context, results *strings.Builder, script 
 	return nil
 }
 
-func processJSONLinesWithQuery(ctx context.Context, results *strings.Builder, script string, data []byte) error {
+func processJSONLinesWithQuery(ctx context.Context, results *strings.Builder, shell string, script string, data []byte) error {
 	const maxBufferSize = 100 * 1024 * 1024 // 100MB max buffer size
 
 	processLine := func(line []byte) error {
-		return processJSONWithQuery(ctx, results, script, line)
+		return processJSONWithQuery(ctx, results, shell, script, line)
 	}
 
 	return utils.ScanLinesWithDynamicBufferSize(data, maxBufferSize, processLine)
@@ -91,6 +91,7 @@ func processJSONLinesWithQuery(ctx context.Context, results *strings.Builder, sc
 
 func (b *Bubble) executeQueryOnInput(ctx context.Context) (string, error) {
 	var results strings.Builder
+	shell := b.shell
 	script := b.queryinput.GetInputValue()
 
 	processor := processJSONWithQuery
@@ -98,10 +99,8 @@ func (b *Bubble) executeQueryOnInput(ctx context.Context) (string, error) {
 	if b.isJSONLines {
 		processor = processJSONLinesWithQuery
 	}
-	if err := processor(ctx, &results, script, b.inputdata.GetInputJSON()); err != nil {
-		return "", err
-	}
-	return results.String(), nil
+	err := processor(ctx, &results, shell, script, b.inputdata.GetInputJSON())
+	return results.String(), err
 }
 
 func (b *Bubble) executeQueryCommand(ctx context.Context) tea.Cmd {
