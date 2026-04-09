@@ -17,14 +17,14 @@ import (
 
 var rootCmd = &cobra.Command{
 	Version: "0.8.0",
-	Use:     "jqp [query]",
-	Short:   "jqp is a TUI to explore jq",
-	Long: `jqp is a terminal user interface (TUI) for exploring the jq command line utility.
+	Use:     "shp [script]",
+	Short:   "shp is a TUI to explore shell scripting",
+	Long: `shp is a terminal user interface (TUI) for exploring shell scripting.
 	
-You can use it to run jq queries interactively. If no query is provided, the interface will prompt you for one.
+You can use it to run shell scripts interactively. If no script is provided, the interface will prompt you for one.
 
-The command accepts an optional query argument which will be executed against the input JSON or newline-delimited JSON (NDJSON). 
-You can provide the input JSON or NDJSON either through a file or via standard input (stdin).`,
+The command accepts an optional script argument which will be executed against the input.
+You can provide the input either through a file or via standard input (stdin).`,
 	Args:         cobra.MaximumNArgs(1),
 	SilenceUsage: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
