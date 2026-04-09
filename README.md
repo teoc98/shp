@@ -1,13 +1,17 @@
-# jqp
+# shp
 
-a TUI playground for exploring jq.
+a TUI playground for exploring shell scripting.
 
 ![jqp](https://user-images.githubusercontent.com/23270779/191256434-05aeda9d-9ee2-4b5e-a23f-6548dac08fdb.gif)
 
+<!--
 This application utilizes [itchyny's](https://github.com/itchyny) implementation of `jq` written in Go, [`gojq`](https://github.com/itchyny/gojq).
+-->
+This application is a fork of [https://github.com/noahgorstein/jqp](jqp),  a TUI playground to experiment with `jq`.
 
 ## Installation
 
+<!--
 ### homebrew
 
 ```bash
@@ -36,41 +40,45 @@ sudo snap install jqp
 ### GitHub releases
 
 Download the relevant asset for your operating system from the latest GitHub release. Unpack it, then move the binary to somewhere accessible in your `PATH`, e.g. `mv ./jqp /usr/local/bin`.
+-->
 
 ### Build from source
 
-Clone this repository, build from source with `cd jqp && go build`, then move the binary to somewhere accessible in your `PATH`, e.g. `mv ./jqp /usr/local/bin`.
+Clone this repository, build from source with `cd shp && go build`, then move the binary to somewhere accessible in your `PATH`, e.g. `mv ./shp /usr/local/bin`.
 
 ## Usage
 
 ```
-➜ jqp --help
-jqp is a terminal user interface (TUI) for exploring the jq command line utility.
+➜ shp --help
+shp is a terminal user interface (TUI) for exploring shell scripting.
 
-You can use it to run jq queries interactively. If no query is provided, the interface will prompt you for one.
+You can use it to run shell scripts interactively. If no script is provided, the interface will prompt you for one.
 
-The command accepts an optional query argument which will be executed against the input JSON or newline-delimited JSON (NDJSON).
-You can provide the input JSON or NDJSON either through a file or via standard input (stdin).
+The command accepts an optional script argument which will be executed against the input.
+You can provide the input either through a file or via standard input (stdin).
 
 Usage:
-  jqp [query] [flags]
+  shp [script] [flags]
 
 Flags:
       --config string   path to config file (default is $HOME/.jqp.yaml)
-  -f, --file string     path to the input JSON file
-  -h, --help            help for jqp
+  -f, --file string     path to the input file
+  -h, --help            help for shp
+  -s, --shell string    interpreter to use (defaults to $SHELL, or /bin/sh if unset)
   -t, --theme string    jqp theme
-  -v, --version         version for jqp
+  -v, --version         version for shp
 ```
 
-`jqp` also supports input from STDIN. STDIN takes precedence over the command-line flag. Additionally, you can pass an optional query argument to jqp that it will execute upon loading.
+`shp` also supports input from STDIN. STDIN takes precedence over the command-line flag. Additionally, you can pass an optional script argument to jqp that it will execute upon loading.
 
 ```
-➜ curl "https://api.github.com/repos/jqlang/jq/issues" | jqp '.[] | {"title": .title, "url": .url}'
+➜ ps | shp 'tac | tee /dev/stderr | wc'
 ```
 
+<!--
 > [!NOTE]
 > Valid JSON or NDJSON [(newline-delimited JSON)](https://jsonlines.org/) can be provided as input to `jqp`.
+-->
 
 ## Keybindings
 
@@ -87,7 +95,7 @@ Flags:
 
 | **Keybinding** | **Action** |
 |:---------------|:-----------|
-| `enter` | execute query |
+| `ctrl+r` | execute query |
 | `↑`/`↓` | cycle through query history |
 | `ctrl-a` | go to beginning of line |
 | `ctrl-e` | go to end of line |
@@ -109,10 +117,10 @@ Flags:
 
 ## Configuration
 
-`jqp` can be configured with a configuration file. By default, `jqp` will search your home directory for a YAML file named `.jqp.yaml`. A path to a YAML configuration file can also be provided to the `--config` command-line flag.
+`shp` can be configured with a configuration file. By default, `shp` uses the same configuration file of `jqp` and will search your home directory for a YAML file named `.jqp.yaml`. A path to a YAML configuration file can also be provided to the `--config` command-line flag.
 
 ```bash
-➜ jqp --config ~/my_jqp_config.yaml < data.json
+➜ shp --config ~/my_jqp_config.yaml < data.json
 ```
 
 If a configuration option is present in both the configuration file and the command-line, the command-line option takes precedence. For example, if a theme is specified in the configuration file and via `-t/--theme flag`, the command-line flag will take precedence.
@@ -226,10 +234,12 @@ Themes are broken up into [light](#light-themes) and [dark](#dark-themes) themes
 - [gojq](https://github.com/itchyny/gojq)
 - [chroma](https://github.com/alecthomas/chroma)
 
+<!--
 ## Credits
 
 - [jqq](https://github.com/jcsalterego/jqq) for inspiration
+-->
 
 --------
 
-[^1]: `jqp` uses [https://github.com/atotto/clipboard](https://github.com/atotto/clipboard) for clipboard functionality. Things should work as expected with OSX and Windows. Linux, Unix require `xclip` or `xsel` to be installed.
+[^1]: `shp` uses [https://github.com/atotto/clipboard](https://github.com/atotto/clipboard) for clipboard functionality. Things should work as expected with OSX and Windows. Linux, Unix require `xclip` or `xsel` to be installed.
