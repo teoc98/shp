@@ -84,7 +84,7 @@ func (b *Bubble) handleQueryResultMsg(msg queryResultMsg, cmds *[]tea.Cmd) {
 	b.output.ScrollToTop()
 	b.output.SetContent(msg.highlightedResults)
 	b.results = msg.rawResults
-	*cmds = append(*cmds, b.statusbar.NewStatusMessage("Successfully executed query.", true))
+	*cmds = append(*cmds, b.statusbar.NewStatusMessage("Successfully executed script.", true))
 }
 
 func (b *Bubble) handleWriteToFileMsg(_ writeToFileMsg, cmds *[]tea.Cmd) {
@@ -99,7 +99,7 @@ func (b *Bubble) handleCopyResultsToClipboardMsg(cmds *[]tea.Cmd) {
 }
 
 func (b *Bubble) handleCopyQueryToClipboardMsg(cmds *[]tea.Cmd) {
-	*cmds = append(*cmds, b.statusbar.NewStatusMessage("Successfully copied query to system clipboard.", true))
+	*cmds = append(*cmds, b.statusbar.NewStatusMessage("Successfully copied script to system clipboard.", true))
 }
 
 func (b *Bubble) handleErrorMsg(msg errorMsg, cmds *[]tea.Cmd) {

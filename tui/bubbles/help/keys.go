@@ -26,7 +26,7 @@ var keys = keyMap{
 		key.WithHelp("ctrl+r", "run script")),
 	abort: key.NewBinding(
 		key.WithKeys("ctrl+c"),
-		key.WithHelp("ctrl+c", "abort running query")),
+		key.WithHelp("ctrl+c", "abort running script")),
 	navigate: key.NewBinding(
 		key.WithKeys("↑↓"),
 		key.WithHelp("↑↓", "scroll")),
@@ -38,7 +38,7 @@ var keys = keyMap{
 		key.WithHelp("ctrl+s", "save output")),
 	copyQuery: key.NewBinding(
 		key.WithKeys("ctrl+y"),
-		key.WithHelp("ctrl+y", "copy query")),
+		key.WithHelp("ctrl+y", "copy script")),
 	toggleInput: key.NewBinding(
 		key.WithKeys("ctrl+t"),
 		key.WithHelp("ctrl+t", "toggle input panel")),
