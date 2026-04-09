@@ -11,8 +11,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/noahgorstein/jqp/tui/bubbles/jqplayground"
-	"github.com/noahgorstein/jqp/tui/theme"
+	"github.com/teoc98/shp/tui/bubbles/jqplayground"
+	"github.com/teoc98/shp/tui/theme"
 )
 
 var rootCmd = &cobra.Command{
