@@ -2,7 +2,7 @@
 
 a TUI playground for exploring shell scripting.
 
-![jqp](https://user-images.githubusercontent.com/23270779/191256434-05aeda9d-9ee2-4b5e-a23f-6548dac08fdb.gif)
+[![asciicast](https://asciinema.org/a/rN6Kc0deTfM76Wku.svg)](https://asciinema.org/a/rN6Kc0deTfM76Wku)
 
 <!--
 This application utilizes [itchyny's](https://github.com/itchyny) implementation of `jq` written in Go, [`gojq`](https://github.com/itchyny/gojq).
