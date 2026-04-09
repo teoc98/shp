@@ -3,6 +3,7 @@ package jqplayground
 import (
 	"context"
 	"io"
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -21,6 +22,7 @@ type errorMsg struct {
 type queryResultMsg struct {
 	rawResults         string
 	highlightedResults string
+	error              error
 }
 
 type writeToFileMsg struct{}
@@ -105,17 +107,15 @@ func (b *Bubble) executeQueryOnInput(ctx context.Context) (string, error) {
 
 func (b *Bubble) executeQueryCommand(ctx context.Context) tea.Cmd {
 	return func() tea.Msg {
+		var errs []error
 		results, err := b.executeQueryOnInput(ctx)
-		if err != nil {
-			return errorMsg{error: err}
-		}
+		errs = append(errs, err)
 		highlightedOutput, err := utils.Prettify([]byte(results), b.theme.ChromaStyle, true)
-		if err != nil {
-			return errorMsg{error: err}
-		}
+		errs = append(errs, err)
 		return queryResultMsg{
 			rawResults:         results,
 			highlightedResults: highlightedOutput.String(),
+			error: errors.Join(errs...),
 		}
 	}
 }

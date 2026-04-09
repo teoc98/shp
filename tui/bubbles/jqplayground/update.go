@@ -84,7 +84,13 @@ func (b *Bubble) handleQueryResultMsg(msg queryResultMsg, cmds *[]tea.Cmd) {
 	b.output.ScrollToTop()
 	b.output.SetContent(msg.highlightedResults)
 	b.results = msg.rawResults
-	*cmds = append(*cmds, b.statusbar.NewStatusMessage("Successfully executed script.", true))
+	var message string
+	if msg.error == nil {
+		message = "Successfully executed script."
+	} else {
+		message = msg.error.Error()
+	}
+	*cmds = append(*cmds, b.statusbar.NewStatusMessage(message, msg.error == nil))
 }
 
 func (b *Bubble) handleWriteToFileMsg(_ writeToFileMsg, cmds *[]tea.Cmd) {
