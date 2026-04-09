@@ -28,10 +28,10 @@ func IsValidInput(data []byte) (isValidJSON bool, isValidJSONLines bool, err err
 	isValidJSON = IsValidJSON(data) == nil
 	isValidJSONLines = IsValidJSONLines(data) == nil
 
-	if !isValidJSON && !isValidJSONLines {
-		err = errors.New("data is not valid JSON or NDJSON")
-		return false, false, err
-	}
+	// if !isValidJSON && !isValidJSONLines {
+	// 	err = errors.New("data is not valid JSON or NDJSON")
+	// 	return false, false, err
+	// }
 
 	return isValidJSON, isValidJSONLines, nil
 }
