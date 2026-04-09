@@ -69,7 +69,7 @@ Flags:
   -v, --version         version for shp
 ```
 
-`shp` also supports input from STDIN. STDIN takes precedence over the command-line flag. Additionally, you can pass an optional script argument to jqp that it will execute upon loading.
+`shp` also supports input from STDIN. STDIN takes precedence over the command-line flag. Additionally, you can pass an optional script argument to shp that it will execute upon loading.
 
 ```
 ➜ ps | shp 'tac | tee /dev/stderr | wc'
@@ -86,17 +86,17 @@ Flags:
 |:---------------|:-----------|
 | `tab` | cycle through sections |
 | `shift-tab` | cycle through sections in reverse |
-| `ctrl-y` | copy query to system clipboard[^1] |
+| `ctrl-y` | copy script to system clipboard[^1] |
 | `ctrl-s` | save output to file (copy to clipboard if file not specified) |
 | `ctrl-t` | toggle showing/hiding input panel |
-| `ctrl-c` | quit program / kill long-running query |
+| `ctrl-c` | quit program / kill long-running script |
 
-### Query Mode
+### Script Mode
 
 | **Keybinding** | **Action** |
 |:---------------|:-----------|
-| `ctrl+r` | execute query |
-| `↑`/`↓` | cycle through query history |
+| `ctrl+r` | execute script |
+| `↑`/`↓` | cycle through script history |
 | `ctrl-a` | go to beginning of line |
 | `ctrl-e` | go to end of line |
 | `←`/`ctrl-b` | move cursor one character to left |
